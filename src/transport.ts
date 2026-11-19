@@ -7,6 +7,7 @@ export type Output = WithoutContext<Action>;
 export async function publish(options: Options, ref: Reference, output: Output) {
   const body = { version: 1, registrationId: ref.registrationId, namespace: ref.namespace, eventId: ref.eventId, ...output };
   const response = await postToProject(options.gatewayUrl, actionPath, body, await options.actionKey?.());
+  if (response.status === 422 && output.kind === "reaction") throw new Error("This emoji is unavailable in the Buzz community. Choose a Unicode emoji or a recognized name.");
   if (response.status !== 202) throw new Error("Buzz gateway action unavailable (" + response.status + ")");
 }
 export function marker(ref: Pick<Reference, "namespace" | "eventId">) {

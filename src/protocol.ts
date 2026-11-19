@@ -32,7 +32,7 @@ export const deliveryReferenceSchema = deliverySchema.omit({ text: true });
 const actionContext = { version: z.literal(1), registrationId, namespace: hexId, eventId: hexId };
 export const actionSchema = z.discriminatedUnion("kind", [
   z.object({ ...actionContext, kind: z.literal("reply"), text: z.string().trim().min(1).max(16000) }),
-  z.object({ ...actionContext, kind: z.literal("reaction"), emoji: z.string().trim().min(1).max(24) }),
+  z.object({ ...actionContext, kind: z.literal("reaction"), emoji: z.string().trim().min(1).max(66) }),
   z.object({ ...actionContext, kind: z.literal("typing") }),
   z.object({ ...actionContext, kind: z.literal("status"), revision: z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER),
     text: z.string().trim().min(1).max(1800).nullable(), busy: z.boolean() }),

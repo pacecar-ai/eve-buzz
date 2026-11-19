@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { addressed, buildChannel, createBuzzChannel } from "../src/channel.ts";
-import { emojiSchema } from "../src/reaction.ts";
+import { emojiSchema, resolveEmoji } from "../src/reaction.ts";
 import { completedReply, ownsTurn, publicStatus, snapshot } from "../src/render.ts";
 import { dashboardUrl, optionsSchema } from "../src/options.ts";
 import { authenticatedReference, buzzAuth, marker } from "../src/transport.ts";
@@ -72,7 +72,10 @@ test("reconciliation scopes output to the original recorded turn and produces th
 });
 test("an emoji-only response is valid and cannot target another room or Slack principal", () => {
   for (const value of ["👩🏽‍💻", "👍", "❤️", "🇨🇦", "1️⃣"]) assert.equal(emojiSchema.safeParse(value).success, true);
-  for (const value of ["hello", "👍👍", "", ":thumbsup:"]) assert.equal(emojiSchema.safeParse(value).success, false);
+  for (const value of ["hello", "👍👍", "", ":bad name:"]) assert.equal(emojiSchema.safeParse(value).success, false);
+  assert.equal(resolveEmoji(":thumbsup:"), "👍");
+  assert.equal(resolveEmoji(":eyes:"), "👀");
+  assert.equal(resolveEmoji(":our_team:"), ":our_team:");
   assert.equal(authenticatedReference({ ...buzzAuth(message), authenticator: "slack" }), undefined);
   assert.equal(authenticatedReference({ ...buzzAuth(message), issuer: "urn:buzz:elsewhere" }), undefined);
   assert.equal(authenticatedReference(buzzAuth(message))?.eventId, message.eventId);

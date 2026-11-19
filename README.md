@@ -9,7 +9,7 @@ The channel follows the interaction model of Eve's Slack channel. The signed-eve
 Use Node 24 or newer and Eve 1.1. Install the published GitHub release in your agent project.
 
 ```sh
-npm install eve@^1.1.0 https://github.com/pacecar-ai/eve-buzz/releases/download/v1.0.0/pacecar-ai-eve-buzz-1.0.0.tgz
+npm install eve@^1.1.0 https://github.com/pacecar-ai/eve-buzz/releases/download/v1.1.0/pacecar-ai-eve-buzz-1.1.0.tgz
 ```
 
 Deploy a Buzz gateway, register the Eve project's workload and link one Buzz credential to the agent. The desktop plugin lets a community owner authorize its identity, add it to rooms and enable Buzz teams. [Gateway setup](https://github.com/pacecar-ai/buzz-gateway) · [Buzz Desktop plugin](https://github.com/pacecar-ai/buzz-vercel-plugin)
@@ -55,7 +55,7 @@ export default createBuzzReactionTool(buzz);
 | Direct messages | Messages from verified members continue the same conversation. |
 | Working feedback | Buzz shows typing and an editable activity message. Eve supplies thinking, visible tool execution, background tasks, waiting for input and writing states. The gateway clears transient activity on settlement. Provide static `toolLabels` to display names appropriate for the room. |
 | Replies | The agent publishes its completed answer in the originating thread. A lost callback can be recovered from the original Eve delivery. |
-| Reactions | Install the optional reaction tool for Unicode emoji. Eve can finish a turn with just the reaction. |
+| Reactions | Install the optional reaction tool for Unicode, built-in picker names like `:eyes:`, and custom community emoji. The gateway resolves custom image names from the signed Buzz community catalogue. Eve can finish a turn with just the reaction. |
 | Questions and approvals | In a DM or verified private room, the person who started the turn can reply with the option number, label, or requested text. In a channel, include a mention. Shared public rooms show a waiting notice. Sign-in challenges remain in the authenticated session. |
 | Stop | Copy the short `/stop` command from the activity message. In a room, mention the agent with the command. The turn ID and the initiating Buzz identity are checked before cancellation. |
 | Vercel link | Set `dashboard: { team, project }` to attach a protected Agent Runs link to the answer and waiting notices. |
