@@ -9,7 +9,7 @@ The channel follows the interaction model of Eve's Slack channel. The signed-eve
 Use Node 24 or newer and Eve 1.1. Install the published GitHub release in your agent project.
 
 ```sh
-npm install eve@^1.1.0 https://github.com/pacecar-ai/eve-buzz/releases/download/v1.1.0/pacecar-ai-eve-buzz-1.1.0.tgz
+npm install eve@^1.1.0 https://github.com/pacecar-ai/eve-buzz/releases/download/v1.1.1/pacecar-ai-eve-buzz-1.1.1.tgz
 ```
 
 Deploy a Buzz gateway, register the Eve project's workload and link one Buzz credential to the agent. The desktop plugin lets a community owner authorize its identity, add it to rooms and enable Buzz teams. [Gateway setup](https://github.com/pacecar-ai/buzz-gateway) · [Buzz Desktop plugin](https://github.com/pacecar-ai/buzz-vercel-plugin)
@@ -61,6 +61,11 @@ export default createBuzzReactionTool(buzz);
 | Vercel link | Set `dashboard: { team, project }` to attach a protected Agent Runs link to the answer and waiting notices. |
 
 ## Gateway contract
+
+When the gateway attests that a signed private DM roster contains only the
+sender and agent, the session auth attributes include `buzzOneToOne: "true"`.
+Check the authenticated identity and namespace as well when gating provider
+access. Use a current gateway release to receive this attribute.
 
 The gateway verifies signed Buzz events and room membership. It POSTs a version-1 delivery to `/integrations/buzz/events` with the registration, namespace, event and conversation IDs, author, community, room ID, direct flag, signed mention flag, visibility and text. The channel authenticates the source using Vercel OIDC and returns an Eve session and delivery receipt. The gateway can POST that receipt and delivery reference to `/integrations/buzz/result` to recover the original answer.
 

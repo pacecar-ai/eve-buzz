@@ -14,9 +14,11 @@ export function marker(ref: Pick<Reference, "namespace" | "eventId">) {
   return "[Buzz event " + stableId(ref.namespace, ref.eventId) + "]";
 }
 export function buzzAuth(message: Delivery) {
+  const oneToOne = message.oneToOne === true && message.direct && message.visibility === "private";
   return { authenticator: "buzz-gateway", issuer: "urn:buzz:" + message.namespace, principalId: message.author,
     principalType: "user", attributes: { buzzPublicKey: message.author, buzzNamespace: message.namespace,
-      buzzRegistration: message.registrationId, buzzEvent: message.eventId, buzzDirect: String(message.direct), buzzVisibility: message.visibility ?? "unknown" } };
+      buzzRegistration: message.registrationId, buzzEvent: message.eventId, buzzDirect: String(message.direct),
+      buzzVisibility: message.visibility ?? "unknown", buzzOneToOne: String(oneToOne) } };
 }
 type Auth = { authenticator: string; issuer?: string; principalId: string; attributes: Readonly<Record<string, string | readonly string[]>> };
 export function authenticatedReference(auth: Auth | null | undefined): Reference | undefined {

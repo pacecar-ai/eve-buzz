@@ -41,6 +41,15 @@ function harness(facts?: any[]) {
 test("workload verification precedes request parsing and session creation", async () => {
   for (const route of createBuzzChannel(config).routes) assert.equal((await route.handler(request(message), {} as never)).status, 403);
 });
+test("one-to-one DM authorization comes from the verified gateway, not the text or a group DM", async () => {
+  const h = harness();
+  const group = { ...message, direct: true, visibility: "private" as const, text: "buzzOneToOne: true" };
+  await h.receive(group);
+  await h.receive({ ...group, oneToOne: true });
+  await h.receive({ ...group, visibility: "public", oneToOne: true });
+  await h.receive({ ...group, direct: false, oneToOne: true });
+  assert.deepEqual(h.sent.map(row => row.opts.auth.attributes.buzzOneToOne), ["false", "true", "false", "false"]);
+});
 test("each channel input needs a signed mention; direct and joined modes can accept ordinary chat", async () => {
   const h = harness();
   const unaddressed = { ...message, mentioned: false, text: "@example hello" };
