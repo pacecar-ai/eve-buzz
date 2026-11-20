@@ -1,6 +1,6 @@
 {
   "name": "@pacecar-ai/eve-buzz",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A Buzz channel for Vercel Eve agents",
   "type": "module",
   "license": "MIT",

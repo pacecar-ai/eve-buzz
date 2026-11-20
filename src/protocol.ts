@@ -22,6 +22,7 @@ export const deliverySchema = z.object({
   roomId: z.string().regex(/^[A-Za-z0-9_-]{1,128}$/).optional(),
   author: hexId,
   direct: z.boolean(),
+  oneToOne: z.literal(true).optional(),
   mentioned: z.boolean().optional(),
   visibility: z.enum(["private", "public"]).optional(),
   text: z.string().min(1).max(16000),
